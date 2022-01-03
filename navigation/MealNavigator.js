@@ -1,37 +1,119 @@
 import React from "react";
 import { Platform } from "react-native";
+
 import { NavigationContainer } from "@react-navigation/native";
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import CategoriesScreen from "../screens/CategoriesScreen.js";
 import CategoryMealsScreen from "../screens/CategoryMealsScreen.js";
 import MealDetailScreen from "../screens/MealDetailScreen.js";
-import FavoritesScreen from "../screens/FiltersScreen";
+import FavoritesScreen from "../screens/FavoritesScreen";
 import Color from "../constants/Color";
-const MealNavigator = createStackNavigator(
-  {
-    Categorie: {
-      screen: CategoriesScreen,
-    },
+//
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+const Tab = createBottomTabNavigator();
+const CategoriesScreenStack = createNativeStackNavigator();
+const FavoritesScreenStack = createNativeStackNavigator();
 
-    CategoryMeals: {
-      screen: CategoryMealsScreen,
-    },
-    MealDetail: { screen: MealDetailScreen },
-  },
-  {
-    defaultNavigationOptions: {
-      // title: "Centered",
-      headerTitleAlign: "center",
-
-      headerStyle: {
-        backgroundColor:
-          Platform.OS === "ios" ? Color.accentColor : Color.primaryColor,
-      },
-      headerTintColor: "white",
-    },
-  }
+const Drawer = createDrawerNavigator();
+console.log(Drawer);
+const CcategoriesScreen = () => (
+  <CategoriesScreenStack.Navigator>
+    <CategoriesScreenStack.Screen
+      options={headerStyle}
+      name="CategoriesScreen"
+      component={CategoriesScreen}
+    />
+    <CategoriesScreenStack.Screen
+      options={headerStyle}
+      name="CategoryMealsScreen"
+      component={CategoryMealsScreen}
+    />
+    <CategoriesScreenStack.Screen
+      name="MealDetailScreen"
+      options={headerStyle}
+      component={MealDetailScreen}
+    />
+  </CategoriesScreenStack.Navigator>
 );
 
-export default createAppContainer(MealNavigator);
+const FFfavoritesScreenStack = () => (
+  <FavoritesScreenStack.Navigator>
+    <FavoritesScreenStack.Screen
+      name="Your Favorites"
+      component={FavoritesScreen}
+      options={headerStyle}
+    />
+  </FavoritesScreenStack.Navigator>
+);
+
+const MyTabs = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === "Main!") {
+            iconName = focused
+              ? "ios-information-circle"
+              : "ios-information-circle-outline";
+          } else if (route.name === "Fav") {
+            iconName = focused
+              ? "ios-information-circle"
+              : "ios-information-circle-outline";
+          }
+
+          // You can return any component that you like here!
+          return (
+            <Ionicons name={iconName} size={25} color={Color.accentColor} />
+          );
+        },
+        tabBarActiveTintColor: "tomato",
+        tabBarInactiveTintColor: "gray",
+      })}
+    >
+      <Tab.Screen
+        name="Main!"
+        component={CcategoriesScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        options={{ headerShown: false }}
+        name="Fav"
+        component={FFfavoritesScreenStack}
+      />
+    </Tab.Navigator>
+  );
+};
+
+export const DrawerNavigator = () => (
+  <NavigationContainer>
+    {/* <Drawer.Navigator>
+      <Drawer.Screen
+        name="Main"
+        component={MyTabs}
+        // options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name="Fav"
+        component={FFfavoritesScreenStack}
+        // options={{ headerShown: false }}
+      />
+    </Drawer.Navigator> */}
+    <MyTabs />
+  </NavigationContainer>
+);
+
+const headerStyle = {
+  headerTitleAlign: "center",
+  headerStyle: {
+    backgroundColor:
+      Platform.OS === "ios" ? Color.accentColor : Color.primaryColor,
+  },
+  headerTintColor: "#fff",
+  headerTitleStyle: {
+    fontWeight: "bold",
+  },
+};

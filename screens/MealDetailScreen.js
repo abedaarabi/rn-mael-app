@@ -17,9 +17,17 @@ const inq = (data) => {
 };
 
 const MealDetailScreen = (props) => {
-  const mealId = props.navigation.getParam("mealId");
+  const { mealId } = props.route.params.params;
   const catgeoryName = MEALS.find((cat) => cat.id === mealId);
-  console.log(catgeoryName.title);
+
+  React.useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <Button title="test" onPress={() => console.log("hesllo world")} />
+      ),
+    });
+  });
+
   return (
     <View style={styles.screen}>
       <Text>The Meal Detail Screen!</Text>
@@ -28,7 +36,10 @@ const MealDetailScreen = (props) => {
       <Button
         title="Category Screen"
         onPress={() => {
-          props.navigation.popToTop();
+          props.navigation.popToTop(),
+            {
+              headerTitle: catgeoryName.title,
+            };
           // props.navigation.navigate("Categorie");
         }}
       />
@@ -36,20 +47,21 @@ const MealDetailScreen = (props) => {
   );
 };
 
-MealDetailScreen.navigationOptions = (navigationData) => {
-  const mealId = navigationData.navigation.getParam("mealId");
+// MealDetailScreen.navigationOptions = (navigationData) => {
+//   const { mealId } = navigationData.route.params.params;
+//   console.log(mealId, "abed");
 
-  const catgeoryName = MEALS.find((cat) => cat.id === mealId);
-  return {
-    headerTitle: catgeoryName.title,
-    headerRight: (
-      <HeaderButtons>
-        <Item title="Favorite" iconName="ios-star" onPress={() => {}} />
-        {/* <CustomHeaderButton />, */}
-      </HeaderButtons>
-    ),
-  };
-};
+//   const catgeoryName = MEALS.find((cat) => cat.id === mealId);
+//   return {
+//     headerTitle: catgeoryName.title + "hello",
+//     headerRight: (
+//       <HeaderButtons>
+//         <Item title="Favorite" iconName="ios-star" onPress={() => {}} />
+//         <CustomHeaderButton />,
+//       </HeaderButtons>
+//     ),
+//   };
+// };
 
 const styles = StyleSheet.create({
   screen: {
