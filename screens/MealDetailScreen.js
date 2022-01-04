@@ -1,14 +1,21 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  ScrollView,
+  Image,
+} from "react-native";
 import { CustomHeaderButton } from "../components/HeaderButton";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { CATEGORIES, MEALS } from "../data/dummy-data";
+import { MEALS } from "../data/dummy-data";
 
 const inq = (data) => {
   return data.map((item, idx) => {
     return (
-      <View>
-        <Text>
+      <View style={styles.listItem}>
+        <Text key={item}>
           {idx + 1}. {item}
         </Text>
       </View>
@@ -27,23 +34,25 @@ const MealDetailScreen = (props) => {
       ),
     });
   });
-
+  const textColor =
+    catgeoryName.complexity === "simple"
+      ? { color: "green" }
+      : { color: "red" };
   return (
-    <View style={styles.screen}>
-      <Text>The Meal Detail Screen!</Text>
-      <Text>{catgeoryName.title}</Text>
-      <View>{inq(catgeoryName.ingredients)}</View>
-      <Button
-        title="Category Screen"
-        onPress={() => {
-          props.navigation.popToTop(),
-            {
-              headerTitle: catgeoryName.title,
-            };
-          // props.navigation.navigate("Categorie");
-        }}
-      />
-    </View>
+    <ScrollView>
+      <Image source={{ uri: catgeoryName.imageUrl }} style={styles.image} />
+
+      <View style={styles.details}>
+        <Text>{catgeoryName.duration}m</Text>
+        <Text style={textColor}>{catgeoryName.complexity.toUpperCase()}</Text>
+        <Text>{catgeoryName.affordability.toUpperCase()}</Text>
+      </View>
+      <Text style={styles.title}> Ingredients</Text>
+      {inq(catgeoryName.ingredients)}
+      <Text style={styles.title}>steps</Text>
+      {inq(catgeoryName.steps)}
+
+    </ScrollView>
   );
 };
 
@@ -68,6 +77,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  details: {
+    flexDirection: "row",
+    padding: 12,
+    justifyContent: "space-around",
+  },
+  image: {
+    width: "100%",
+    height: 200,
+  },
+  title: {
+    fontFamily: "open-sans-bold",
+    fontSize: 22,
+    textAlign: "center",
+  },
+  listItem: {
+    marginHorizontal: 20,
+
+    marginVertical: 10,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    padding: 10,
   },
 });
 

@@ -8,6 +8,7 @@ import CategoriesScreen from "../screens/CategoriesScreen.js";
 import CategoryMealsScreen from "../screens/CategoryMealsScreen.js";
 import MealDetailScreen from "../screens/MealDetailScreen.js";
 import FavoritesScreen from "../screens/FavoritesScreen";
+import FiltersScreen from "../screens/FiltersScreen";
 import Color from "../constants/Color";
 //
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -16,9 +17,10 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 const Tab = createBottomTabNavigator();
 const CategoriesScreenStack = createNativeStackNavigator();
 const FavoritesScreenStack = createNativeStackNavigator();
+const FilterScreenStack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
-console.log(Drawer);
+
 const CcategoriesScreen = () => (
   <CategoriesScreenStack.Navigator>
     <CategoriesScreenStack.Screen
@@ -47,6 +49,15 @@ const FFfavoritesScreenStack = () => (
       options={headerStyle}
     />
   </FavoritesScreenStack.Navigator>
+);
+const FfilterScreenStack = () => (
+  <FilterScreenStack.Navigator>
+    <FilterScreenStack.Screen
+      name="Filter Screen"
+      component={FiltersScreen}
+      options={headerStyle}
+    />
+  </FilterScreenStack.Navigator>
 );
 
 const MyTabs = () => {
@@ -83,6 +94,11 @@ const MyTabs = () => {
         options={{ headerShown: false }}
         name="Fav"
         component={FFfavoritesScreenStack}
+      />
+      <Tab.Screen
+        options={{ headerShown: false }}
+        name="Filter"
+        component={FfilterScreenStack}
       />
     </Tab.Navigator>
   );
