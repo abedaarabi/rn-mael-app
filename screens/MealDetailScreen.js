@@ -7,17 +7,15 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import { CustomHeaderButton } from "../components/HeaderButton";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { MEALS } from "../data/dummy-data";
+
+import { useSelector, useDispatch } from "react-redux";
+import { taggleFavorite } from "../store/actions/mealAction";
 
 const inq = (data) => {
   return data.map((item, idx) => {
     return (
       <View style={styles.listItem}>
-        <Text key={item}>
-          {idx + 1}. {item}
-        </Text>
+        <Text key={item}>{item}</Text>
       </View>
     );
   });
@@ -25,12 +23,16 @@ const inq = (data) => {
 
 const MealDetailScreen = (props) => {
   const { mealId } = props.route.params.params;
-  const catgeoryName = MEALS.find((cat) => cat.id === mealId);
+
+  const availableMeals = useSelector((state) => state.meals.meals);
+  const catgeoryName = availableMeals.find((cat) => cat.id === mealId);
+
+  const dispatch = useDispatch();
 
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <Button title="test" onPress={() => console.log("hesllo world")} />
+        <Button title="fav" onPress={() => dispatch(taggleFavorite(mealId))} />
       ),
     });
   });
@@ -51,7 +53,6 @@ const MealDetailScreen = (props) => {
       {inq(catgeoryName.ingredients)}
       <Text style={styles.title}>steps</Text>
       {inq(catgeoryName.steps)}
-
     </ScrollView>
   );
 };

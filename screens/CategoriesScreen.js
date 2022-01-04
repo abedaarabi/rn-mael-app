@@ -23,7 +23,7 @@ const CategoriesScreen = (props) => {
   return (
     <FlatList
       keyExtractor={(item, idx) => {
-        item.id;
+        return item.id;
       }}
       data={CATEGORIES}
       renderItem={renderGridItems}
