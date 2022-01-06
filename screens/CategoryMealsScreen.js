@@ -1,10 +1,12 @@
 import React from "react";
 
 import { useSelector } from "react-redux";
-
+import { Text, View, StyleSheet, Button } from "react-native";
 import { MealList } from "../components/MealList";
-
+import { useDispatch } from "react-redux";
 import { CATEGORIES } from "../data/dummy-data";
+import Color from "../constants/Color";
+import { restFilter } from "../store/actions/mealAction";
 
 const CategoryMealScreen = (props) => {
   // const categoryId = props.navigation.getParam("categoryId");
@@ -14,6 +16,26 @@ const CategoryMealScreen = (props) => {
   const displayMeal = availableMeals.filter(
     (meal) => meal.categoryIds.indexOf(categoryId) >= 0
   );
+  const dispatch = useDispatch();
+  React.useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <Button
+          title="rest"
+          onPress={() => {
+            dispatch(restFilter());
+          }}
+        />
+      ),
+    });
+  });
+  if (availableMeals.length === 0) {
+    return (
+      <View style={styles.screen}>
+        <Text>Seelect Filter</Text>
+      </View>
+    );
+  }
 
   return <MealList listData={displayMeal} navigation={props.navigation} />;
 };
@@ -28,4 +50,11 @@ CategoryMealScreen.navigationOptions = (navigationData) => {
   };
 };
 
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 export default CategoryMealScreen;

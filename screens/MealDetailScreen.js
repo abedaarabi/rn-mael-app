@@ -25,14 +25,21 @@ const MealDetailScreen = (props) => {
   const { mealId } = props.route.params.params;
 
   const availableMeals = useSelector((state) => state.meals.meals);
+  const updatedFav = useSelector((state) =>
+    state.meals.favoriteMeals.some((fav) => fav.id === mealId)
+  );
   const catgeoryName = availableMeals.find((cat) => cat.id === mealId);
 
   const dispatch = useDispatch();
-
+  const s = updatedFav ? "blue" : "red";
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <Button title="fav" onPress={() => dispatch(taggleFavorite(mealId))} />
+        <Button
+          title="fav"
+          color={s}
+          onPress={() => dispatch(taggleFavorite(mealId))}
+        />
       ),
     });
   });

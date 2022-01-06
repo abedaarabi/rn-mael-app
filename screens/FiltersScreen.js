@@ -2,6 +2,9 @@ import React from "react";
 import { View, Text, StyleSheet, Switch, Button } from "react-native";
 import Color from "../constants/Color";
 
+import { useDispatch } from "react-redux";
+import { filterMeals } from "../store/actions/mealAction";
+
 const FilterSwitch = (props) => (
   <View style={styles.filterContainer}>
     <Text>{props.title}</Text>
@@ -19,13 +22,24 @@ const FiltersScreen = (props) => {
   const [lactoseFree, setLactoseFree] = React.useState(false);
   const [vegan, setVegan] = React.useState(false);
   const [vegetarian, setVegetarian] = React.useState(false);
+
+  const dispatch = useDispatch();
+
+  const saveFilter = React.useCallback(() => {
+    const appliedFilter = {
+      gultenFree,
+      lactoseFree,
+      vegan,
+      vegetarian,
+    };
+    dispatch(filterMeals(appliedFilter));
+  }, [gultenFree, lactoseFree, vegan, vegetarian]);
+
   React.useLayoutEffect(() => {
     props.navigation.setOptions({
-      headerRight: () => (
-        <Button title="Save" onPress={() => console.log({ gultenFree })} />
-      ),
+      headerRight: () => <Button title="Save" onPress={saveFilter} />,
     });
-  }, []);
+  });
   return (
     <View style={styles.screen}>
       <Text style={styles.title}>Filter Meal Screen</Text>

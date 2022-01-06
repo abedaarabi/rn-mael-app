@@ -6,9 +6,17 @@ import { MealList } from "../components/MealList";
 import { useSelector } from "react-redux";
 
 const FavoritesScreen = (props) => {
-  const availableMeals = useSelector((state) => state.meals.favoriteMeals);
+  const favMeals = useSelector((state) => state.meals.favoriteMeals);
 
-  return <MealList listData={availableMeals} navigation={props.navigation} />;
+  if (favMeals.length === 0 || !favMeals) {
+    return (
+      <View style={styles.screen}>
+        <Text>No Favortie Meals. Please select Some</Text>
+      </View>
+    );
+  }
+
+  return <MealList listData={favMeals} navigation={props.navigation} />;
 };
 
 const styles = StyleSheet.create({
