@@ -9,6 +9,7 @@ import { mealsReducer } from "./store/reducers/meals";
 //improve performance
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
+import {store} from "./redux/store"
 enableFreeze(true);
 
 const fetchFonts = () => {
@@ -18,10 +19,10 @@ const fetchFonts = () => {
   });
 };
 
-const rootReducer = combineReducers({
-  meals: mealsReducer,
-});
-const store = createStore(rootReducer);
+// const rootReducer = combineReducers({
+//   meals: mealsReducer,
+// });
+// const store = createStore(rootReducer);
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = React.useState(false);

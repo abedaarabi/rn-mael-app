@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 
 const FavoritesScreen = (props) => {
   const favMeals = useSelector((state) => state.meals.favoriteMeals);
-
   if (favMeals.length === 0 || !favMeals) {
     return (
       <View style={styles.screen}>

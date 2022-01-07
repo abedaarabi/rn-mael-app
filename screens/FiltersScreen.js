@@ -5,6 +5,11 @@ import Color from "../constants/Color";
 import { useDispatch } from "react-redux";
 import { filterMeals } from "../store/actions/mealAction";
 
+import {
+  TOGGLE_FAVORITE,
+  FILTERED_MEALS,
+  REST_FILTER,
+} from "../redux/counterSlice";
 const FilterSwitch = (props) => (
   <View style={styles.filterContainer}>
     <Text>{props.title}</Text>
@@ -32,7 +37,7 @@ const FiltersScreen = (props) => {
       vegan,
       vegetarian,
     };
-    dispatch(filterMeals(appliedFilter));
+    dispatch(FILTERED_MEALS(appliedFilter));
   }, [gultenFree, lactoseFree, vegan, vegetarian]);
 
   React.useLayoutEffect(() => {

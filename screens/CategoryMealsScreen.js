@@ -8,11 +8,15 @@ import { CATEGORIES } from "../data/dummy-data";
 import Color from "../constants/Color";
 import { restFilter } from "../store/actions/mealAction";
 
+import {
+  TOGGLE_FAVORITE,
+  FILTERED_MEALS,
+  REST_FILTER,
+} from "../redux/counterSlice";
 const CategoryMealScreen = (props) => {
   // const categoryId = props.navigation.getParam("categoryId");
   const { categoryId } = props.route.params.params;
   const availableMeals = useSelector((state) => state.meals.filterMeals);
-
   const displayMeal = availableMeals.filter(
     (meal) => meal.categoryIds.indexOf(categoryId) >= 0
   );
@@ -23,7 +27,7 @@ const CategoryMealScreen = (props) => {
         <Button
           title="rest"
           onPress={() => {
-            dispatch(restFilter());
+            dispatch(REST_FILTER());
           }}
         />
       ),

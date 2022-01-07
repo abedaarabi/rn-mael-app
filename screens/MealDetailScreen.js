@@ -10,7 +10,11 @@ import {
 
 import { useSelector, useDispatch } from "react-redux";
 import { taggleFavorite } from "../store/actions/mealAction";
-
+import {
+  TOGGLE_FAVORITE,
+  FILTERED_MEALS,
+  REST_FILTER,
+} from "../redux/counterSlice";
 const inq = (data) => {
   return data.map((item, idx) => {
     return (
@@ -25,11 +29,12 @@ const MealDetailScreen = (props) => {
   const { mealId } = props.route.params.params;
 
   const availableMeals = useSelector((state) => state.meals.meals);
-  const updatedFav = useSelector((state) =>
-    state.meals.favoriteMeals.some((fav) => fav.id === mealId)
-  );
   const catgeoryName = availableMeals.find((cat) => cat.id === mealId);
 
+  const updatedFav = useSelector((state) =>
+    state.meals.favoriteMeals.some((meal) => meal.id === mealId)
+  );
+  console.log(updatedFav);
   const dispatch = useDispatch();
   const s = updatedFav ? "blue" : "red";
   React.useLayoutEffect(() => {
@@ -38,7 +43,7 @@ const MealDetailScreen = (props) => {
         <Button
           title="fav"
           color={s}
-          onPress={() => dispatch(taggleFavorite(mealId))}
+          onPress={() => dispatch(TOGGLE_FAVORITE(mealId))}
         />
       ),
     });
