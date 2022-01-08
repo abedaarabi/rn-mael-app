@@ -3,22 +3,12 @@ import { View, Text, StyleSheet, Switch, Button } from "react-native";
 import Color from "../constants/Color";
 
 import { useDispatch } from "react-redux";
-import { filterMeals } from "../store/actions/mealAction";
 
-import {
-  TOGGLE_FAVORITE,
-  FILTERED_MEALS,
-  REST_FILTER,
-} from "../redux/counterSlice";
+import { FILTERED_MEALS } from "../redux/mealSlice";
 const FilterSwitch = (props) => (
   <View style={styles.filterContainer}>
     <Text>{props.title}</Text>
-    <Switch
-      value={props.state}
-      onValueChange={props.onChange}
-      // trackColor={{ true: Color.primaryColor }}
-      // thumbColor={Color.primaryColor}
-    />
+    <Switch value={props.state} onValueChange={props.onChange} />
   </View>
 );
 
@@ -44,7 +34,7 @@ const FiltersScreen = (props) => {
     props.navigation.setOptions({
       headerRight: () => <Button title="Save" onPress={saveFilter} />,
     });
-  });
+  }, [saveFilter]);
   return (
     <View style={styles.screen}>
       <Text style={styles.title}>Filter Meal Screen</Text>

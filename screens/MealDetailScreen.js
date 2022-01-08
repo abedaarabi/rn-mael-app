@@ -9,12 +9,10 @@ import {
 } from "react-native";
 
 import { useSelector, useDispatch } from "react-redux";
-import { taggleFavorite } from "../store/actions/mealAction";
-import {
-  TOGGLE_FAVORITE,
-  FILTERED_MEALS,
-  REST_FILTER,
-} from "../redux/counterSlice";
+import Color from "../constants/Color";
+import { MEALS } from "../data/dummy-data";
+
+import { TOGGLE_FAVORITE } from "../redux/mealSlice";
 const inq = (data) => {
   return data.map((item, idx) => {
     return (
@@ -27,6 +25,7 @@ const inq = (data) => {
 
 const MealDetailScreen = (props) => {
   const { mealId } = props.route.params.params;
+  const dispatch = useDispatch();
 
   const availableMeals = useSelector((state) => state.meals.meals);
   const catgeoryName = availableMeals.find((cat) => cat.id === mealId);
@@ -34,20 +33,23 @@ const MealDetailScreen = (props) => {
   const updatedFav = useSelector((state) =>
     state.meals.favoriteMeals.some((meal) => meal.id === mealId)
   );
-  console.log(updatedFav);
-  const dispatch = useDispatch();
+
   const s = updatedFav ? "blue" : "red";
-  React.useLayoutEffect(() => {
+
+  React.useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
         <Button
-          title="fav"
+          onPress={() => {
+            dispatch(TOGGLE_FAVORITE(mealId));
+          }}
+          title="fv"
           color={s}
-          onPress={() => dispatch(TOGGLE_FAVORITE(mealId))}
         />
       ),
     });
-  });
+  }, [s]);
+
   const textColor =
     catgeoryName.complexity === "simple"
       ? { color: "green" }
@@ -69,21 +71,24 @@ const MealDetailScreen = (props) => {
   );
 };
 
-// MealDetailScreen.navigationOptions = (navigationData) => {
-//   const { mealId } = navigationData.route.params.params;
-//   console.log(mealId, "abed");
+export const detailOption = (navigationData) => {
+  const { mealId } = navigationData.route.params.params;
 
-//   const catgeoryName = MEALS.find((cat) => cat.id === mealId);
-//   return {
-//     headerTitle: catgeoryName.title + "hello",
-//     headerRight: (
-//       <HeaderButtons>
-//         <Item title="Favorite" iconName="ios-star" onPress={() => {}} />
-//         <CustomHeaderButton />,
-//       </HeaderButtons>
-//     ),
-//   };
-// };
+  const catgeoryName = MEALS.find((cat) => cat.id === mealId);
+
+  return {
+    headerTitle: catgeoryName.title,
+    headerTitleAlign: "center",
+    headerStyle: {
+      backgroundColor:
+        Platform.OS === "ios" ? Color.accentColor : Color.primaryColor,
+    },
+    headerTintColor: "#fff",
+    headerTitleStyle: {
+      fontWeight: "bold",
+    },
+  };
+};
 
 const styles = StyleSheet.create({
   screen: {

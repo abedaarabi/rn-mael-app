@@ -5,14 +5,8 @@ import { Text, View, StyleSheet, Button } from "react-native";
 import { MealList } from "../components/MealList";
 import { useDispatch } from "react-redux";
 import { CATEGORIES } from "../data/dummy-data";
-import Color from "../constants/Color";
-import { restFilter } from "../store/actions/mealAction";
 
-import {
-  TOGGLE_FAVORITE,
-  FILTERED_MEALS,
-  REST_FILTER,
-} from "../redux/counterSlice";
+import { REST_FILTER } from "../redux/mealSlice";
 const CategoryMealScreen = (props) => {
   // const categoryId = props.navigation.getParam("categoryId");
   const { categoryId } = props.route.params.params;

@@ -5,11 +5,11 @@ import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 import { DrawerNavigator } from "./navigation/MealNavigator";
 import { enableFreeze } from "react-native-screens";
-import { mealsReducer } from "./store/reducers/meals";
+
 //improve performance
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
-import {store} from "./redux/store"
+import { store } from "./redux/store";
 enableFreeze(true);
 
 const fetchFonts = () => {
@@ -18,11 +18,6 @@ const fetchFonts = () => {
     "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
   });
 };
-
-// const rootReducer = combineReducers({
-//   meals: mealsReducer,
-// });
-// const store = createStore(rootReducer);
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = React.useState(false);
@@ -36,7 +31,6 @@ export default function App() {
       />
     );
   }
-  // return <MealNavigator />;
 
   return (
     <Provider store={store}>

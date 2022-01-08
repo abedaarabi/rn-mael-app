@@ -65,7 +65,6 @@ export const mealSlice = createSlice({
   },
 });
 
-
 export const { TOGGLE_FAVORITE, FILTERED_MEALS, REST_FILTER } =
   mealSlice.actions;
 
